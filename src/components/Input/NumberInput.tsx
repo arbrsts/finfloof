@@ -13,7 +13,7 @@ import {
   TextFieldProps,
   ValidationResult,
 } from "react-aria-components";
-import { useKeyboard, useFocusWithin } from "react-aria";
+import { useKeyboard, useFocusWithin, useFocusManager } from "react-aria";
 import classNames from "classnames";
 
 interface NumberInput extends TextFieldProps {
@@ -29,15 +29,17 @@ export const NumberInput = ({
   ...props
 }: NumberInput) => {
   const [value, setValue] = useState(props.defaultValue ?? "");
-  const ref = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
   const handleCommitOrDismiss = useCallback(() => {
+    inputRef?.current?.blur();
+
     if (onCommitOrDismiss) {
       onCommitOrDismiss(value);
     }
     setIsFocused(false);
-  }, [value, onCommitOrDismiss]);
+  }, [onCommitOrDismiss, value]);
 
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {
@@ -57,16 +59,17 @@ export const NumberInput = ({
   });
 
   return (
-    <TextField {...props} ref={ref}>
+    <TextField {...props} className={"flex"}>
       <Label>{label}</Label>
       <Input
         {...focusWithinProps}
         {...keyboardProps}
+        ref={inputRef}
         value={value}
         onChange={(event) => setValue(event.target.value)}
         className={classNames([
-          "text-right hover:outline rounded px-1",
-          isFocused && "outline-1",
+          "text-right hover:outline outline-1 hover:bg-white rounded px-1 w-8",
+          isFocused ? "outline-1 bg-white" : "bg-transparent",
         ])}
       />
     </TextField>

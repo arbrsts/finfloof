@@ -26,9 +26,9 @@ function App() {
     const result = await window.api.dbQuery("SELECT * FROM users", []);
     setData(result);
   };
+  console.log("rendering")
 
   const { data: budget, isLoading } = useGetBudgetQuery();
-  console.log("budget", budget, isLoading);
 
   const [items, setItems] = useState(initialItems);
   const [detailId, setDetailId] = useState<keyof Categories>();
@@ -59,7 +59,12 @@ function App() {
           <div>All Money Assigned</div>
           detailId: {detailId}
           <div>
-            <TreeItem value="Category"/>
+            <TreeItem
+              value="Category"
+              isColumnHeader={true}
+              depth={0}
+              indentationWidth={0}
+            />
           </div>
           <SortableTree
             removable

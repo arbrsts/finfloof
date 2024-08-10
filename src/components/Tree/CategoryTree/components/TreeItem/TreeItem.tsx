@@ -20,6 +20,7 @@ export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, "id"> {
   handleProps?: any;
   indicator?: boolean;
   indentationWidth: number;
+  isColumnHeader?: boolean; // Show item as header with column labels instead with number input fields
   value: string;
   onCollapse?(): void;
   onRemove?(): void;
@@ -45,6 +46,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
       style,
       value,
       wrapperRef,
+      isColumnHeader,
       ...props
     },
     ref
@@ -66,7 +68,11 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
         ref={wrapperRef}
         {...props}
       >
-        <div className={styles.TreeItem} ref={ref} style={style}>
+        <div
+          className={classNames(styles.TreeItem, !depth && "bg-neutral-200")}
+          ref={ref}
+          style={style}
+        >
           <Handle {...handleProps} />
           <div className="w-4">
             {onCollapse && (
@@ -83,24 +89,52 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
           </div>
 
           <span className={styles.Text}>{value}</span>
-          <NumberInput
-            defaultValue={budget?.categories?.[value]?.activity.toString()}
-            onCommitOrDismiss={(amount) => {
-              assign({ categoryId: value, amount: parseFloat(amount) });
-            }}
-          />
-          <NumberInput
-            defaultValue={budget?.categories?.[value]?.activity.toString()}
-            onCommitOrDismiss={(amount) => {
-              assign({ categoryId: value, amount: parseFloat(amount) });
-            }}
-          />
-          <NumberInput
-            defaultValue={budget?.categories?.[value]?.activity.toString()}
-            onCommitOrDismiss={(amount) => {
-              assign({ categoryId: value, amount: parseFloat(amount) });
-            }}
-          />
+
+          <div className="flex gap-2">
+            <div className="w-20 flex border justify-end">
+              {isColumnHeader ? (
+                <div className="">Budgeted</div>
+              ) : (
+                <NumberInput
+                  defaultValue={budget?.categories?.[
+                    value
+                  ]?.activity.toString()}
+                  onCommitOrDismiss={(amount) => {
+                    assign({ categoryId: value, amount: parseFloat(amount) });
+                  }}
+                />
+              )}
+            </div>
+            <div className="w-20 flex border justify-end">
+              {isColumnHeader ? (
+                <div className="">Activity</div>
+              ) : (
+                <NumberInput
+                  defaultValue={budget?.categories?.[
+                    value
+                  ]?.activity.toString()}
+                  onCommitOrDismiss={(amount) => {
+                    assign({ categoryId: value, amount: parseFloat(amount) });
+                  }}
+                />
+              )}
+            </div>
+            <div className="w-20 flex border justify-end">
+              {isColumnHeader ? (
+                <div className="">Available</div>
+              ) : (
+                <NumberInput
+                  defaultValue={budget?.categories?.[
+                    value
+                  ]?.activity.toString()}
+                  onCommitOrDismiss={(amount) => {
+                    assign({ categoryId: value, amount: parseFloat(amount) });
+                  }}
+                />
+              )}
+            </div>
+          </div>
+
           <div className="w-4">
             {!clone && onRemove && <Remove onClick={onRemove} />}
             {clone && childCount && childCount > 1 ? (
