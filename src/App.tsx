@@ -1,27 +1,16 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import "./App.css";
-import { initialItems, SortableTree } from "./Tree/SortableTree";
-import InMemoryBudget, { Categories } from "./inMemoryBudget";
-
-const budget_ = new InMemoryBudget();
-
-function useBudgetStore() {
-  const [budget, setBudget] = useState(budget_.budget);
-
-  useEffect(() => {
-    // Subscribe to budget changes
-    const unsubscribe = budget_.subscribe(() => {
-      // Update the state whenever the budget changes
-      console.log("re-render", budget_.budget);
-      setBudget({ ...budget_.budget });
-    });
-
-    // Clean up subscription on unmount
-    return unsubscribe;
-  }, []);
-
-  return budget;
-}
+import {
+  initialItems,
+  SortableTree,
+} from "./components/Tree/CategoryTree/SortableTree";
+import { NumberInput } from "./components/Input/NumberInput";
+import {
+  useAssignMutation,
+  useCreateTransactionMutation,
+  useGetBudgetQuery,
+} from "./store/budgetApi";
+import { Categories } from "./types";
 
 const sidebar = [
   { label: "Budget" },
@@ -37,9 +26,15 @@ function App() {
     setData(result);
   };
 
+  const { data: budget, isLoading } = useGetBudgetQuery();
+  console.log("budget", budget, isLoading);
+
   const [items, setItems] = useState(initialItems);
   const [detailId, setDetailId] = useState<keyof Categories>();
-  const budget = useBudgetStore();
+
+  const [assign] = useAssignMutation();
+  const [createTransaction] = useCreateTransactionMutation();
+
   return (
     <div className="App flex ">
       <div className="bg-amber-50/50 border-r p-5">
@@ -54,7 +49,7 @@ function App() {
           ))}
         </ul>
       </div>
-    <div className="flex p-5 gap-8">
+      <div className="flex p-5 gap-8">
         <div className="flex flex-col">
           <div>
             <div>Riley's Budget</div>
@@ -63,6 +58,9 @@ function App() {
           <div>All Money Assigned</div>
           detailId: {detailId}
           <SortableTree
+            removable
+            indicator
+            collapsible
             items={items}
             setItems={setItems}
             setDetailId={setDetailId}
@@ -70,13 +68,24 @@ function App() {
         </div>
 
         <div className="">
+          <div className="flex">
+            <NumberInput />
+          </div>
           <pre>Ready to Assign: {JSON.stringify(budget, null, 2)}</pre>
           <div className="flex gap-4 ">
-            <button onClick={() => budget_.assign(detailId, 100)}>
+            <button
+              onClick={() => assign({ categoryId: detailId, amount: 100 })}
+            >
               Assign 10
             </button>
             <button
-              onClick={() => budget_.createTransaction(detailId, "main", 100)}
+              onClick={() =>
+                createTransaction({
+                  categoryId: "Home",
+                  accountId: "main",
+                  amount: 50,
+                })
+              }
             >
               Create transaction
             </button>
