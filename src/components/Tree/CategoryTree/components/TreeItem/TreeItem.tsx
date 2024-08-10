@@ -64,26 +64,24 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
         )}
         onClick={onClick}
         ref={wrapperRef}
-        style={
-          {
-            "--spacing": `${indentationWidth * depth}px`,
-          } as React.CSSProperties
-        }
         {...props}
       >
         <div className={styles.TreeItem} ref={ref} style={style}>
           <Handle {...handleProps} />
-          {onCollapse && (
-            <Action
-              onClick={onCollapse}
-              className={classNames(
-                styles.Collapse,
-                collapsed && styles.collapsed
-              )}
-            >
-              {collapseIcon}
-            </Action>
-          )}
+          <div className="w-4">
+            {onCollapse && (
+              <Action
+                onClick={onCollapse}
+                className={classNames(
+                  styles.Collapse,
+                  collapsed && styles.collapsed
+                )}
+              >
+                {collapseIcon}
+              </Action>
+            )}
+          </div>
+
           <span className={styles.Text}>{value}</span>
           <NumberInput
             defaultValue={budget?.categories?.[value]?.activity.toString()}
@@ -91,10 +89,24 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
               assign({ categoryId: value, amount: parseFloat(amount) });
             }}
           />
-          {!clone && onRemove && <Remove onClick={onRemove} />}
-          {clone && childCount && childCount > 1 ? (
-            <span className={styles.Count}>{childCount}</span>
-          ) : null}
+          <NumberInput
+            defaultValue={budget?.categories?.[value]?.activity.toString()}
+            onCommitOrDismiss={(amount) => {
+              assign({ categoryId: value, amount: parseFloat(amount) });
+            }}
+          />
+          <NumberInput
+            defaultValue={budget?.categories?.[value]?.activity.toString()}
+            onCommitOrDismiss={(amount) => {
+              assign({ categoryId: value, amount: parseFloat(amount) });
+            }}
+          />
+          <div className="w-4">
+            {!clone && onRemove && <Remove onClick={onRemove} />}
+            {clone && childCount && childCount > 1 ? (
+              <span className={styles.Count}>{childCount}</span>
+            ) : null}
+          </div>
         </div>
       </li>
     );

@@ -59,15 +59,14 @@ export const NumberInput = ({
   return (
     <TextField {...props} ref={ref}>
       <Label>{label}</Label>
-      {isFocused ? "true" : "false"}
       <Input
         {...focusWithinProps}
         {...keyboardProps}
         value={value}
         onChange={(event) => setValue(event.target.value)}
         className={classNames([
-          "text-right  rounded px-1",
-          isFocused ? "hover:outline outline-1" : "outline-0",
+          "text-right hover:outline rounded px-1",
+          isFocused && "outline-1",
         ])}
       />
     </TextField>

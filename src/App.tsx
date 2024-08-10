@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import {
   initialItems,
@@ -11,6 +11,7 @@ import {
   useGetBudgetQuery,
 } from "./store/budgetApi";
 import { Categories } from "./types";
+import { TreeItem } from "./components/Tree/CategoryTree/components";
 
 const sidebar = [
   { label: "Budget" },
@@ -57,6 +58,9 @@ function App() {
           </div>
           <div>All Money Assigned</div>
           detailId: {detailId}
+          <div>
+            <TreeItem value="Category"/>
+          </div>
           <SortableTree
             removable
             indicator
