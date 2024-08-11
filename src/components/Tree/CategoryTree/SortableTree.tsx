@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import {
   Announcements,
@@ -38,6 +38,7 @@ import type { FlattenedItem, SensorContext, TreeItems } from "./types";
 import { sortableTreeKeyboardCoordinates } from "./keyboardCoordinates";
 import { SortableTreeItem } from "./components";
 import { CSS } from "@dnd-kit/utilities";
+import { TreeItemProps } from "./components/TreeItem/TreeItem";
 
 export const initialItems: TreeItems = [
   {
@@ -101,6 +102,7 @@ interface Props {
   indentationWidth?: number;
   indicator?: boolean;
   removable?: boolean;
+  children?: ({ ...props }: { props: TreeItemProps }) => ReactNode;
 }
 
 export function SortableTree({
@@ -112,6 +114,7 @@ export function SortableTree({
   items,
   setItems,
   setDetailId,
+  children,
 }: Props) {
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
   const [overId, setOverId] = useState<UniqueIdentifier | null>(null);
@@ -204,7 +207,7 @@ export function SortableTree({
       onDragCancel={handleDragCancel}
     >
       <SortableContext items={sortedIds} strategy={verticalListSortingStrategy}>
-        {flattenedItems.map(({ id, children, collapsed, depth }) => (
+        {flattenedItems.map(({ id, children: childItem, collapsed, depth }) => (
           <SortableTreeItem
             key={id}
             id={id}
@@ -212,17 +215,18 @@ export function SortableTree({
             depth={id === activeId && projected ? projected.depth : depth}
             indentationWidth={indentationWidth}
             indicator={indicator}
-            collapsed={Boolean(collapsed && children.length)}
+            collapsed={Boolean(collapsed && childItem.length)}
             onClick={() => {
               setDetailId(id);
             }}
             onCollapse={
-              collapsible && children.length
+              collapsible && childItem.length
                 ? () => handleCollapse(id)
                 : undefined
             }
             onRemove={removable ? () => handleRemove(id) : undefined}
-          />
+            children={children}
+          ></SortableTreeItem>
         ))}
         {createPortal(
           <DragOverlay
@@ -237,6 +241,7 @@ export function SortableTree({
                 childCount={getChildCount(items, activeId) + 1}
                 value={activeId.toString()}
                 indentationWidth={indentationWidth}
+                children={children}
               />
             ) : null}
           </DragOverlay>,

@@ -14,12 +14,12 @@ export const budgetApi = createApi({
     }),
     assign: builder.mutation<
       void,
-      { categoryId: keyof Categories; amount: number }
+      { monthId: string; categoryId: keyof Categories; amount: number }
     >({
-      query: ({ categoryId, amount }) => ({
+      query: ({ monthId, categoryId, amount }) => ({
         url: "assign",
         method: "POST",
-        body: { categoryId, amount },
+        body: { monthId, categoryId, amount },
       }),
       invalidatesTags: ["Budget"],
     }),

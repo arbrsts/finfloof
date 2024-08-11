@@ -1,4 +1,4 @@
-import React, { forwardRef, HTMLAttributes } from "react";
+import React, { forwardRef, HTMLAttributes, ReactNode } from "react";
 import classNames from "classnames";
 
 import styles from "./TreeItem.module.css";
@@ -9,7 +9,8 @@ import {
   useGetBudgetQuery,
 } from "../../../../../store/budgetApi";
 
-export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, "id"> {
+export interface TreeItemProps
+  extends Omit<HTMLAttributes<HTMLLIElement>, "id" | "children"> {
   childCount?: number;
   clone?: boolean;
   collapsed?: boolean;
@@ -22,12 +23,14 @@ export interface Props extends Omit<HTMLAttributes<HTMLLIElement>, "id"> {
   indentationWidth: number;
   isColumnHeader?: boolean; // Show item as header with column labels instead with number input fields
   value: string;
+  monthId: string; // Month to assign and retrieve values from
   onCollapse?(): void;
   onRemove?(): void;
   wrapperRef?(node: HTMLLIElement): void;
+  children?: ({ ...props }: Omit<TreeItemProps, "children">) => ReactNode;
 }
 
-export const TreeItem = forwardRef<HTMLDivElement, Props>(
+export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
   (
     {
       childCount,
@@ -47,6 +50,7 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
       value,
       wrapperRef,
       isColumnHeader,
+      monthId,
       ...props
     },
     ref
@@ -100,7 +104,11 @@ export const TreeItem = forwardRef<HTMLDivElement, Props>(
                     value
                   ]?.activity.toString()}
                   onCommitOrDismiss={(amount) => {
-                    assign({ categoryId: value, amount: parseFloat(amount) });
+                    assign({
+                      categoryId: value,
+                      monthId,
+                      amount: parseFloat(amount),
+                    });
                   }}
                 />
               )}

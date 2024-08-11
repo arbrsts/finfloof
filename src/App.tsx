@@ -12,15 +12,13 @@ import {
 } from "./store/budgetApi";
 import { Categories } from "./types";
 import { TreeItem } from "./components/Tree/CategoryTree/components";
-import { getCurrentYearMonth } from "./utils/dates";
+import { adjustMonth, getCurrentYearMonth } from "./utils/dates";
 
 const sidebar = [
   { label: "Budget" },
   { label: "Reports" },
   { label: "Accounts" },
 ];
-
-
 
 // Format date as yyyy-mm
 function App() {
@@ -60,24 +58,14 @@ function App() {
           <div className="flex gap-4">
             <button
               onClick={() => {
-                setDate((prevDate) => {
-                  const newDate = new Date(prevDate);
-                  newDate.setMonth(prevDate.getMonth() + 1);
-                  return newDate;
-                });
+                setDate((prevDate) => adjustMonth(prevDate, -1));
               }}
             >
               Prev
             </button>
             <div>{date.toDateString()}</div>
             <button
-              onClick={() => {
-                setDate((prevDate) => {
-                  const newDate = new Date(prevDate);
-                  newDate.setMonth(prevDate.getMonth() - 1);
-                  return newDate;
-                });
-              }}
+              onClick={() => setDate((prevDate) => adjustMonth(prevDate, 1))}
             >
               Next
             </button>
@@ -99,7 +87,11 @@ function App() {
             items={items}
             setItems={setItems}
             setDetailId={setDetailId}
-          />
+          >
+            {({ ...props }) => (
+              <TreeItem monthId={date.toISOString()} {...props}></TreeItem>
+            )}
+          </SortableTree>
         </div>
 
         <div className="">

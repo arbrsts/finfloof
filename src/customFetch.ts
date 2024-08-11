@@ -39,7 +39,8 @@ export const customFetch: typeof fetch = async (
         break;
       case "assign":
         if (method === "POST" && body) {
-          inMemoryBackend.assign(body.categoryId, body.amount);
+          console.log(body);
+          inMemoryBackend.assign(body.monthId, body.categoryId, body.amount);
           result = { success: true };
         }
         break;
