@@ -1,5 +1,6 @@
 // src/inMemoryBackend.ts
 import { Budget, Categories } from "./types";
+import { adjustMonth, getCurrentYearMonth } from "./utils/dates";
 
 class InMemoryBackend {
   private budget: Budget;
@@ -7,13 +8,25 @@ class InMemoryBackend {
   constructor() {
     this.budget = {
       categories: {
-        Home: {
-          assigned: 10,
-          activity: 35,
+        [getCurrentYearMonth().toISOString()]: {
+          Home: {
+            assigned: 10,
+            activity: 35,
+          },
+          ReadyToAssign: {
+            assigned: 5000,
+            activity: 35,
+          },
         },
-        ReadyToAssign: {
-          assigned: 5000,
-          activity: 35,
+        [adjustMonth(getCurrentYearMonth(), -1).toISOString()]: {
+          Home: {
+            assigned: 10,
+            activity: 35,
+          },
+          ReadyToAssign: {
+            assigned: 5000,
+            activity: 35,
+          },
         },
       },
       account: {
@@ -29,10 +42,10 @@ class InMemoryBackend {
     return this.budget;
   }
 
-  assign(categoryId: keyof Categories, amount: number) {
-    this.budget.categories.ReadyToAssign.assigned +=
-      this.budget.categories[categoryId].assigned - amount;
-    this.budget.categories[categoryId].assigned = amount;
+  assign(monthId: string, categoryId: keyof Categories, amount: number) {
+    this.budget.categories[monthId].ReadyToAssign.assigned +=
+      this.budget.categories?.[monthId]?.[categoryId].assigned - amount;
+    this.budget.categories[monthId][categoryId].assigned = amount;
   }
 
   createTransaction(

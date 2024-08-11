@@ -6,9 +6,11 @@ export type Category = {
 };
 
 export type Categories = {
-  Home: Category;
-  ReadyToAssign: Category;
-  [category: string]: Category; // Allow for more categories in the future
+  [key: string]: {
+    Home: Category;
+    ReadyToAssign: Category;
+    [category: string]: Category; // Allow for more categories in the future
+  };
 };
 
 export type Account = {

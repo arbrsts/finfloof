@@ -12,6 +12,7 @@ import {
 } from "./store/budgetApi";
 import { Categories } from "./types";
 import { TreeItem } from "./components/Tree/CategoryTree/components";
+import { getCurrentYearMonth } from "./utils/dates";
 
 const sidebar = [
   { label: "Budget" },
@@ -19,6 +20,9 @@ const sidebar = [
   { label: "Accounts" },
 ];
 
+
+
+// Format date as yyyy-mm
 function App() {
   const [data, setData] = useState([]);
 
@@ -26,12 +30,13 @@ function App() {
     const result = await window.api.dbQuery("SELECT * FROM users", []);
     setData(result);
   };
-  console.log("rendering")
+  console.log("rendering");
 
   const { data: budget, isLoading } = useGetBudgetQuery();
 
   const [items, setItems] = useState(initialItems);
   const [detailId, setDetailId] = useState<keyof Categories>();
+  const [date, setDate] = useState(getCurrentYearMonth());
 
   const [assign] = useAssignMutation();
   const [createTransaction] = useCreateTransactionMutation();
@@ -52,9 +57,30 @@ function App() {
       </div>
       <div className="flex p-5 gap-8">
         <div className="flex flex-col">
-          <div>
-            <div>Riley's Budget</div>
-            <div>Aug 2024</div>
+          <div className="flex gap-4">
+            <button
+              onClick={() => {
+                setDate((prevDate) => {
+                  const newDate = new Date(prevDate);
+                  newDate.setMonth(prevDate.getMonth() + 1);
+                  return newDate;
+                });
+              }}
+            >
+              Prev
+            </button>
+            <div>{date.toDateString()}</div>
+            <button
+              onClick={() => {
+                setDate((prevDate) => {
+                  const newDate = new Date(prevDate);
+                  newDate.setMonth(prevDate.getMonth() - 1);
+                  return newDate;
+                });
+              }}
+            >
+              Next
+            </button>
           </div>
           <div>All Money Assigned</div>
           detailId: {detailId}
