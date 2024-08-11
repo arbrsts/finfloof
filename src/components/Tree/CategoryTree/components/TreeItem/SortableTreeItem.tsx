@@ -51,7 +51,6 @@ export function SortableTreeItem({ id, depth, children, ...props }: Props) {
         },
         ...props,
       })}
-
     </>
   );
 }

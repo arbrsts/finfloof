@@ -43,10 +43,6 @@ import { TreeItemProps } from "./components/TreeItem/TreeItem";
 export const initialItems: TreeItems = [
   {
     id: "Home",
-    children: [],
-  },
-  {
-    id: "ReadyToAssign",
     children: [
       { id: "Spring", children: [] },
       { id: "Summer", children: [] },
@@ -55,15 +51,8 @@ export const initialItems: TreeItems = [
     ],
   },
   {
-    id: "About Us",
+    id: "ReadyToAssign",
     children: [],
-  },
-  {
-    id: "My Account",
-    children: [
-      { id: "Addresses", children: [] },
-      { id: "Order History", children: [] },
-    ],
   },
 ];
 

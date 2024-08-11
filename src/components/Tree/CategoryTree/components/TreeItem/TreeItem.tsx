@@ -77,6 +77,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
           ref={ref}
           style={style}
         >
+          {budget?.categories[monthId]?.[value]?.assigned.toString()}
           <Handle {...handleProps} />
           <div className="w-4">
             {onCollapse && (
@@ -100,9 +101,9 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Budgeted</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories?.[
+                  defaultValue={budget?.categories[monthId]?.[
                     value
-                  ]?.activity.toString()}
+                  ]?.assigned.toString()}
                   onCommitOrDismiss={(amount) => {
                     assign({
                       categoryId: value,
@@ -118,12 +119,9 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Activity</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories?.[
+                  defaultValue={budget?.categories[monthId]?.[
                     value
                   ]?.activity.toString()}
-                  onCommitOrDismiss={(amount) => {
-                    assign({ categoryId: value, amount: parseFloat(amount) });
-                  }}
                 />
               )}
             </div>
@@ -132,12 +130,9 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Available</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories?.[
+                  defaultValue={budget?.categories[monthId]?.[
                     value
-                  ]?.activity.toString()}
-                  onCommitOrDismiss={(amount) => {
-                    assign({ categoryId: value, amount: parseFloat(amount) });
-                  }}
+                  ]?.available.toString()}
                 />
               )}
             </div>

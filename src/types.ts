@@ -3,6 +3,7 @@
 export type Category = {
   assigned: number;
   activity: number;
+  available: number;
 };
 
 export type Categories = {

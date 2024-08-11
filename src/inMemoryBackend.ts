@@ -12,20 +12,25 @@ class InMemoryBackend {
           Home: {
             assigned: 10,
             activity: 35,
+            available: 10,
           },
           ReadyToAssign: {
             assigned: 5000,
             activity: 35,
+
+            available: 10,
           },
         },
         [adjustMonth(getCurrentYearMonth(), -1).toISOString()]: {
           Home: {
             assigned: 10,
             activity: 35,
+            available: 10,
           },
           ReadyToAssign: {
             assigned: 5000,
             activity: 35,
+            available: 10,
           },
         },
       },

@@ -13,7 +13,7 @@ import {
   TextFieldProps,
   ValidationResult,
 } from "react-aria-components";
-import { useKeyboard, useFocusWithin, useFocusManager } from "react-aria";
+import { useKeyboard, useFocusWithin } from "react-aria";
 import classNames from "classnames";
 
 interface NumberInput extends TextFieldProps {
@@ -28,7 +28,7 @@ export const NumberInput = ({
   onCommitOrDismiss,
   ...props
 }: NumberInput) => {
-  const [value, setValue] = useState(props.defaultValue ?? "");
+  const [value, setValue] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
 
@@ -40,6 +40,10 @@ export const NumberInput = ({
     }
     setIsFocused(false);
   }, [onCommitOrDismiss, value]);
+
+  useEffect(() => {
+    setValue(props.defaultValue ?? "");
+  }, [props.defaultValue]);
 
   const { keyboardProps } = useKeyboard({
     onKeyDown: (e) => {
@@ -68,7 +72,7 @@ export const NumberInput = ({
         value={value}
         onChange={(event) => setValue(event.target.value)}
         className={classNames([
-          "text-right hover:outline outline-1 hover:bg-white rounded px-1 w-8",
+          "text-right hover:outline outline-1 hover:bg-white rounded px-1 w-16",
           isFocused ? "outline-1 bg-white" : "bg-transparent",
         ])}
       />
