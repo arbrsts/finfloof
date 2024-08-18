@@ -44,7 +44,7 @@ export const customFetch: typeof fetch = async (
         }
         break;
       case "transactions":
-        console.log("tes2", method, body)
+        console.log("tes2", method, body);
         if (method === "GET") {
           result = budget.getBudget();
         } else if (method === "POST" && body) {
