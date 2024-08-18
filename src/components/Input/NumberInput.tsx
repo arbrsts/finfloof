@@ -33,8 +33,6 @@ export const NumberInput = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const handleCommitOrDismiss = useCallback(() => {
-    inputRef?.current?.blur();
-
     if (onCommitOrDismiss) {
       onCommitOrDismiss(value);
     }
@@ -49,6 +47,7 @@ export const NumberInput = ({
     onKeyDown: (e) => {
       if (e.key === "Enter") {
         handleCommitOrDismiss();
+        inputRef?.current?.blur();
       }
     },
   });
@@ -56,6 +55,7 @@ export const NumberInput = ({
   const { focusWithinProps } = useFocusWithin({
     onBlurWithin: () => {
       handleCommitOrDismiss();
+      inputRef?.current?.blur();
     },
     onFocusWithinChange: (isFocusWithin) => {
       setIsFocused(isFocusWithin);

@@ -4,6 +4,7 @@ export type Category = {
   assigned: number;
   activity: number;
   available: number;
+  inflow?: number;
 };
 
 export type Categories = {

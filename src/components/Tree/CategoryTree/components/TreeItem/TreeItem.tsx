@@ -14,16 +14,16 @@ export interface TreeItemProps
   childCount?: number;
   clone?: boolean;
   collapsed?: boolean;
-  depth: number;
+  depth?: number;
   disableInteraction?: boolean;
   disableSelection?: boolean;
   ghost?: boolean;
   handleProps?: any;
   indicator?: boolean;
-  indentationWidth: number;
+  indentationWidth?: number;
   isColumnHeader?: boolean; // Show item as header with column labels instead with number input fields
-  value: string;
-  monthId: string; // Month to assign and retrieve values from
+  value?: string;
+  monthId?: string; // Month to assign and retrieve values from
   onCollapse?(): void;
   onRemove?(): void;
   wrapperRef?(node: HTMLLIElement): void;
@@ -77,7 +77,6 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
           ref={ref}
           style={style}
         >
-          {budget?.categories[monthId]?.[value]?.assigned.toString()}
           <Handle {...handleProps} />
           <div className="w-4">
             {onCollapse && (
@@ -103,7 +102,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <NumberInput
                   defaultValue={budget?.categories[monthId]?.[
                     value
-                  ]?.assigned.toString()}
+                  ]?.assigned?.toString()}
                   onCommitOrDismiss={(amount) => {
                     assign({
                       categoryId: value,
@@ -121,7 +120,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <NumberInput
                   defaultValue={budget?.categories[monthId]?.[
                     value
-                  ]?.activity.toString()}
+                  ]?.activity?.toString()}
                 />
               )}
             </div>
@@ -132,7 +131,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <NumberInput
                   defaultValue={budget?.categories[monthId]?.[
                     value
-                  ]?.available.toString()}
+                  ]?.available?.toString()}
                 />
               )}
             </div>

@@ -1,5 +1,5 @@
 // src/customFetch.ts
-import { inMemoryBackend } from "./inMemoryBackend";
+import { budget } from "./inMemoryBackend";
 
 const USE_IN_MEMORY_BACKEND = true; // Set this to false to use a real API
 
@@ -35,24 +35,20 @@ export const customFetch: typeof fetch = async (
     let result;
     switch (url) {
       case "budget":
-        result = await inMemoryBackend.getBudget();
+        result = budget.getBudget();
         break;
       case "assign":
         if (method === "POST" && body) {
-          console.log(body);
-          inMemoryBackend.assign(body.monthId, body.categoryId, body.amount);
+          budget.assign(body.monthId, body.categoryId, body.amount);
           result = { success: true };
         }
         break;
       case "transactions":
+        console.log("tes2", method, body)
         if (method === "GET") {
-          result = await inMemoryBackend.getTransactions();
+          result = budget.getBudget();
         } else if (method === "POST" && body) {
-          inMemoryBackend.createTransaction(
-            body.categoryId,
-            body.accountId,
-            body.amount
-          );
+          budget.addTransaction(body.monthId, body.categoryId, body.amount);
           result = { success: true };
         }
         break;

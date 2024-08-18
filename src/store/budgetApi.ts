@@ -25,7 +25,7 @@ export const budgetApi = createApi({
     }),
     createTransaction: builder.mutation<
       void,
-      { categoryId: keyof Categories; accountId: string; amount: number }
+      { monthId: string; categoryId: keyof Categories; amount: number }
     >({
       query: (transaction) => ({
         url: "transactions",

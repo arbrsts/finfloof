@@ -4,6 +4,10 @@
 
 @layer base {
   html {
-    @apply text-neutral-700;
+    @apply bg-finfloof-background text-finfloof-text-secondary;
+  }
+
+  h1, h2 {
+    @apply text-finfloof-text-secondary;
   }
 }
