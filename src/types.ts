@@ -26,11 +26,12 @@ export type Accounts = {
 export type Transaction = {
   id: string;
   accountId: string;
+  categoryId: string;
   amount: number;
 };
 
 export type Budget = {
-  categories: Categories;
+  categoriesMonthly: Categories;
   account: Accounts;
   transactions: Transaction[];
 };

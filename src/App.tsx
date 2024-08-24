@@ -37,20 +37,20 @@ function App() {
   const [createTransaction] = useCreateTransactionMutation();
 
   return (
-    <div className="App bg-finfloof-background text-finfloof-text-primary min-h-screen">
-      <nav className="flex items-center justify-between border-b border-finfloof-text-muted p-4">
-        <div className="flex items-center space-x-4">
-          <div className="rounded-lg bg-finfloof-primary px-4 py-2 text-finfloof-background">
-            <div className="font-bold text-lg">finfloof</div>
-            <div className="text-xs opacity-75">budget</div>
+    <div className="flex App  text-finfloof-text-primary min-h-screen">
+      <nav className="flex flex-col bg-finfloof-panel border-finfloof-text-muted px-4 py-4 border-r">
+        <div className="flex items-center space-x-4 mb-8">
+          <div className="">
+            <div className="font-bold text-2xl">Riley's Budget</div>
+            <div className="text-lg opacity-75">£4004.24</div>
           </div>
         </div>
-        <ul className="flex space-x-6">
+        <ul className="">
           {sidebar.map((item) => (
             <li key={item.label}>
               <Link
                 to={item?.href ?? ""}
-                className="text-finfloof-text-secondary hover:text-finfloof-text-primary transition-colors duration-200"
+                className="text-xl font-bold text-finfloof-text-secondary hover:text-finfloof-text-primary transition-colors duration-200"
               >
                 {item.label}
               </Link>
@@ -58,7 +58,7 @@ function App() {
           ))}
         </ul>
       </nav>
-      <div className="p-8">
+      <div className="px-24 py-14 grow">
         <Switch>
           <Route exact path="/" component={Budget} />
           <Route path="/accounts" component={Accounts} />

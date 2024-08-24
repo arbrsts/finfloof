@@ -5,7 +5,8 @@ export default {
     extend: {
       colors: {
         finfloof: {
-          background: "#282828",
+          panel: "#252525",
+          background: "#202020",
           primary: "#8DAA46", // Changed to green (previously apple-green)
           secondary: "#D89A23", // Moved harvest-gold to secondary
           accent: "#FF18C6",

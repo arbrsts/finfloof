@@ -7,7 +7,7 @@ const previousMonth = adjustMonth(getCurrentYearMonth(), -1).toISOString();
 const nextMonth = adjustMonth(getCurrentYearMonth(), 1).toISOString();
 
 const testInitialBudget: Budget = {
-  categories: {
+  categoriesMonthly: {
     [previousMonth]: {
       Home: { assigned: 0, activity: 0, available: 0 },
       Food: { assigned: 0, activity: 0, available: 0 },
@@ -39,16 +39,16 @@ describe("SimplifiedBudgetLogic", () => {
 
   test("initial budget is set correctly", () => {
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(200);
-    expect(budget.categories[currentMonth].Home.available).toBe(0);
-    expect(budget.categories[currentMonth].Food.available).toBe(0);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(200);
+    expect(budget.categoriesMonthly[currentMonth].Home.available).toBe(0);
+    expect(budget.categoriesMonthly[currentMonth].Food.available).toBe(0);
   });
 
   test("assign reduces ReadyToAssign and increases category available", () => {
     budgetLogic.assign(currentMonth, "Home", 50);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(150);
-    expect(budget.categories[currentMonth].Home.available).toBe(50);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(150);
+    expect(budget.categoriesMonthly[currentMonth].Home.available).toBe(50);
   });
 
   test("multiple assigns are cumulative", () => {
@@ -56,48 +56,48 @@ describe("SimplifiedBudgetLogic", () => {
     budgetLogic.assign(currentMonth, "Home", 75);
     budgetLogic.assign(currentMonth, "Food", 100);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(25);
-    expect(budget.categories[currentMonth].Home.available).toBe(75);
-    expect(budget.categories[currentMonth].Food.available).toBe(100);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(25);
+    expect(budget.categoriesMonthly[currentMonth].Home.available).toBe(75);
+    expect(budget.categoriesMonthly[currentMonth].Food.available).toBe(100);
   });
 
   test("addTransaction updates category activity and available", () => {
     budgetLogic.assign(currentMonth, "Home", 100);
     budgetLogic.addTransaction(currentMonth, "Home", -30);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].Home.activity).toBe(-30);
-    expect(budget.categories[currentMonth].Home.available).toBe(70);
+    expect(budget.categoriesMonthly[currentMonth].Home.activity).toBe(-30);
+    expect(budget.categoriesMonthly[currentMonth].Home.available).toBe(70);
   });
 
   test("available amount rolls over to next month", () => {
     budgetLogic.assign(currentMonth, "Home", 100);
     budgetLogic.addTransaction(currentMonth, "Home", -30);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[nextMonth].Home.available).toBe(70);
+    expect(budget.categoriesMonthly[nextMonth].Home.available).toBe(70);
   });
 
   test("ReadyToAssign rolls over correctly", () => {
     budgetLogic.assign(currentMonth, "Home", 50);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[nextMonth].ReadyToAssign.available).toBe(250); // 150 (current) + 100 (next month inflow)
+    expect(budget.categoriesMonthly[nextMonth].ReadyToAssign.available).toBe(250); // 150 (current) + 100 (next month inflow)
   });
 
   test("negative assign to ReadyToAssign decreases its available amount", () => {
     budgetLogic.assign(currentMonth, "ReadyToAssign", -50);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(150);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(150);
   });
 
   test("positive assign to ReadyToAssign increases its available amount", () => {
     budgetLogic.assign(currentMonth, "ReadyToAssign", 50);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(250);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(250);
   });
 
   test("assign more than available should still work but leave ReadyToAssign negative", () => {
     budgetLogic.assign(currentMonth, "Home", 300);
     const budget = budgetLogic.getBudget();
-    expect(budget.categories[currentMonth].ReadyToAssign.available).toBe(-100);
-    expect(budget.categories[currentMonth].Home.available).toBe(300);
+    expect(budget.categoriesMonthly[currentMonth].ReadyToAssign.available).toBe(-100);
+    expect(budget.categoriesMonthly[currentMonth].Home.available).toBe(300);
   });
 });

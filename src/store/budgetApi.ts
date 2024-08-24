@@ -1,7 +1,12 @@
-// src/store/budgetApi.ts
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Budget, Categories } from "../types";
+import { Budget, Categories, Transaction } from "../types";
 import { customFetch } from "../customFetch";
+
+// Define the shape of the response for createTransaction
+interface CreateTransactionResponse {
+  id: string;
+  // Add other properties that the API returns
+}
 
 export const budgetApi = createApi({
   reducerPath: "budgetApi",
@@ -24,8 +29,13 @@ export const budgetApi = createApi({
       invalidatesTags: ["Budget"],
     }),
     createTransaction: builder.mutation<
-      void,
-      { monthId: string; categoryId: keyof Categories; amount: number }
+      CreateTransactionResponse,
+      {
+        accountId: string;
+        monthId: string;
+        categoryId: keyof Categories;
+        amount: number;
+      }
     >({
       query: (transaction) => ({
         url: "transactions",
@@ -34,7 +44,7 @@ export const budgetApi = createApi({
       }),
       invalidatesTags: ["Budget"],
     }),
-    getTransactions: builder.query<Budget, void>({
+    getTransactions: builder.query<Transaction[], void>({
       query: () => "transactions",
       providesTags: ["Budget"],
     }),

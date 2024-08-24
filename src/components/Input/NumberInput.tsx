@@ -72,8 +72,8 @@ export const NumberInput = ({
         value={value}
         onChange={(event) => setValue(event.target.value)}
         className={classNames([
-          "text-right hover:outline outline-1 hover:bg-white rounded px-1 w-16",
-          isFocused ? "outline-1 bg-white" : "bg-transparent",
+          "text-right hover:outline outline-1  rounded px-1 w-16",
+          isFocused ? "outline-1 bg-finfloof-panel" : "bg-transparent",
         ])}
       />
     </TextField>

@@ -75,29 +75,6 @@ function Budget() {
           )}
         </SortableTree>
       </div>
-
-      <div className="">
-        <pre className="text-xs">
-          Ready to Assign: {JSON.stringify(budget, null, 2)}
-        </pre>
-        <div className="flex gap-4 ">
-          <button onClick={() => assign({ categoryId: detailId, amount: 100 })}>
-            Assign 10
-          </button>
-          <button
-            onClick={() => {
-              console.log("test");
-              createTransaction({
-                monthId: getCurrentYearMonth().toISOString(),
-                categoryId: "Home",
-                amount: -50,
-              });
-            }}
-          >
-            Create transaction
-          </button>
-        </div>
-      </div>
     </>
   );
 }

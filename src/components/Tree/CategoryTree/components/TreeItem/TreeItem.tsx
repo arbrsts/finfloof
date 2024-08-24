@@ -100,7 +100,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Budgeted</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories[monthId]?.[
+                  defaultValue={budget?.categoriesMonthly[monthId]?.[
                     value
                   ]?.assigned?.toString()}
                   onCommitOrDismiss={(amount) => {
@@ -118,7 +118,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Activity</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories[monthId]?.[
+                  defaultValue={budget?.categoriesMonthly[monthId]?.[
                     value
                   ]?.activity?.toString()}
                 />
@@ -129,7 +129,7 @@ export const TreeItem = forwardRef<HTMLDivElement, TreeItemProps>(
                 <div className="">Available</div>
               ) : (
                 <NumberInput
-                  defaultValue={budget?.categories[monthId]?.[
+                  defaultValue={budget?.categoriesMonthly[monthId]?.[
                     value
                   ]?.available?.toString()}
                 />

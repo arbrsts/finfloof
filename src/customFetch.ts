@@ -48,8 +48,13 @@ export const customFetch: typeof fetch = async (
         if (method === "GET") {
           result = budget.getBudget();
         } else if (method === "POST" && body) {
-          budget.addTransaction(body.monthId, body.categoryId, body.amount);
-          result = { success: true };
+          const newTransaction = budget.addTransaction(
+            body.accountId,
+            body.monthId,
+            body.categoryId,
+            body.amount
+          );
+          result = newTransaction;
         }
         break;
       default:
