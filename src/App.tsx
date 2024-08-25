@@ -38,7 +38,7 @@ function App() {
 
   return (
     <div className="flex App  text-finfloof-text-primary min-h-screen">
-      <nav className="flex flex-col bg-finfloof-panel border-finfloof-text-muted px-4 py-4 border-r">
+      <nav className="flex shrink-0 flex-col bg-finfloof-panel border-finfloof-text-muted px-4 py-4 border-r">
         <div className="flex items-center space-x-4 mb-8">
           <div className="">
             <div className="font-bold text-2xl">Riley's Budget</div>
