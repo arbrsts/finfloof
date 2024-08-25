@@ -120,7 +120,7 @@ export function Table({
 
   return (
     <div className="overflow-hidden rounded-lg border w-full border-gray-200 shadow-sm">
-      <table className="w-full border-collapse bg-finfloof-panel text-left text-sm ">
+      <table className="table-fixed w-full border-collapse bg-finfloof-panel text-left text-sm ">
         <thead className="bg-finfloof-pane1">
           <tr>
             <th scope="col" className="px-6 py-4 font-medium ">
@@ -275,6 +275,9 @@ function TableCell({
       <td className="px-6 py-4">
         <ComboBoxInput
           defaultInputValue={rowData[column.key]}
+          onSelectionChange={(newValue) => {
+            onValueChange(newValue);
+          }}
           choices={data?.categories}
         />
       </td>

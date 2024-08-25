@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useGetBudgetQuery } from "../../store/budgetApi";
 import { Table, useTable } from "../../components/Table/Table";
-import { ComboBoxInput } from "../../components/Input/ComboBox";
 
 const columns = [
   { name: "Category", key: "categoryId" },

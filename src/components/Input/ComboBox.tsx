@@ -29,10 +29,12 @@ export function ComboBoxInput({
   choices,
   defaultInputValue,
   onInputChange,
+  onSelectionChange,
 }: ComboBoxInputProps & ComboBoxProps<Choice>) {
   const [value, setValue] = React.useState(defaultInputValue ?? "");
 
   return (
+
     <ComboBox
       aria-label="add-later"
       className={"flex"}
@@ -40,6 +42,11 @@ export function ComboBoxInput({
         setValue(newValue);
         if (onInputChange) {
           onInputChange(newValue);
+        }
+      }}
+      onSelectionChange={(newValue) => {
+        if (onSelectionChange) {
+          onSelectionChange(newValue);
         }
       }}
       inputValue={value}
@@ -60,6 +67,7 @@ export function ComboBoxInput({
         </ListBox>
       </Popover>
     </ComboBox>
+
   );
 }
 
